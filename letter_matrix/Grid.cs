@@ -5,11 +5,11 @@ class Grid{
 
     public List<GridNode> letterNodes;
 
-    public Grid(int numRows, int numColumns, String searchTerm, String gridText){}
+    public Grid(int numRows, int numColumns, String gridText){}
 
     private GridNode createNode(char c){}
 
-    public List<int> findAllOccurences(String searchTerm){}
+    public List<List<GridNode>> findAllOccurences(String searchTerm){}
 
-    private List<GridNode> getMatchingNodes(char c, List<GridNodes> potentialNodes){}
+    private List<GridNode> getMatchingNodes(char c, List<GridNode> potentialNodes){}
 }
