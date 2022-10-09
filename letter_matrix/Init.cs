@@ -1,8 +1,8 @@
 ﻿int numRows = 4;
 int numColumns = 6;
-String gridText = "KLPQRKATLDAIMZEATETAKATZ";
+string gridText = "KLPQRKATLDAIMZEATETAKATZ";
 
-String searchTerm = "KATZE";
+string searchTerm = "KATZE";
 
 Grid grid = new Grid(numRows, numColumns, gridText);
 
