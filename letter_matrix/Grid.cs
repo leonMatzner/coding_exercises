@@ -43,10 +43,6 @@ class Grid{
         }
     }
 
-    private GridNode createNode(char c){
-        return null;
-    }
-
     public List<List<GridNode>> findAllOccurences(string searchTerm){
         return null;
     }
