@@ -81,6 +81,16 @@ class Grid{
     }
 
     private List<GridNode> getMatchingNeighbours(char c, GridNode originNode){
-        return new List<GridNode>();
+        List<GridNode> neighbours = originNode.getNeighbours();
+        List<GridNode> matchingNeighbours = new List<GridNode>();
+        
+        // iterates through neighbours and adds matching nodes to be returned
+        foreach(GridNode neighbour in neighbours){
+            if(neighbour.letter == c){
+                matchingNeighbours.Add(neighbour);
+            }
+        }
+        
+        return matchingNeighbours;
     }
 }

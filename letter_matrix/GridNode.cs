@@ -15,4 +15,15 @@ class GridNode{
         this.id = id;
         this.letter = letter;
     }
+    
+    public List<GridNode> getNeighbours(){
+        List<GridNode> neighbours = new List<GridNode>();
+
+        if(north != null) {neighbours.Add(this.north);}
+        if(east != null) {neighbours.Add(this.east);}
+        if(south != null) {neighbours.Add(this.south);}
+        if(west != null) {neighbours.Add(this.west);}
+        
+        return neighbours;
+    }
 }
