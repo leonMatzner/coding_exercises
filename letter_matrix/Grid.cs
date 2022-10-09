@@ -44,10 +44,43 @@ class Grid{
     }
 
     public List<List<GridNode>> findAllOccurences(string searchTerm){
+        if(searchTerm == null || searchTerm.Length == 0){
+            return null;
+        }
+
+        // The first list dimension separates layers of a tree of visited GridNodes
+        // The tree is meant to be traversed starting from the leaf nodes (visitedGridNodeTree[n-1])
+        List<List<(GridNode node, int parentOffset)>> visitedGridNodeTree = new List<List<(GridNode, int)>>();
+
+        // initialize search criteria
+        char currentChar = searchTerm[0];
+
+        // initialize the first tree layer
+        visitedGridNodeTree.Add(new List<(GridNode, int)>());
+        foreach(GridNode node in this.letterNodes){
+            if(node.letter == currentChar){
+                visitedGridNodeTree[0].Add((node, 0));
+                //Console.WriteLine(visitedGridNodeTree);
+            }
+        }
+        
+        // computes the further layers of tree of potential matches
+        for(int charIndex = 1; charIndex < searchTerm.Length; charIndex++){
+            currentChar = searchTerm[charIndex];
+
+            visitedGridNodeTree.Add(new List<(GridNode, int)>());
+            for(int parentIndex = 0; parentIndex < visitedGridNodeTree[charIndex - 1].Count; parentIndex++){
+                foreach(GridNode node in getMatchingNeighbours(currentChar, visitedGridNodeTree[charIndex - 1][parentIndex].node)){
+                    visitedGridNodeTree[charIndex].Add((node, parentIndex));
+                }
+            }
+        }
+
+        // TODO: traverse visitedGridNodeTree to get full paths and check for uniqueness of nodes
         return null;
     }
 
-    private List<GridNode> getMatchingNodes(char c, List<GridNode> potentialNodes){
-        return null;
+    private List<GridNode> getMatchingNeighbours(char c, GridNode originNode){
+        return new List<GridNode>();
     }
 }
