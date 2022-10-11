@@ -74,6 +74,7 @@ class Grid{
                     visitedGridNodeTree[charIndex].Add((node, parentIndex));
                 }
             }
+            printSubGrid(visitedGridNodeTree[visitedGridNodeTree.Count -1]);
         }
 
         // TODO: traverse visitedGridNodeTree to get full paths and check for uniqueness of nodes
@@ -92,5 +93,24 @@ class Grid{
         }
         
         return matchingNeighbours;
+    }
+
+    public void printSubGrid(List<(GridNode node, int)> nodes){
+        char[] charGridRep = new char[numColumns];
+
+        // fill grid representation with #
+        for(int row = 0; row < numRows; row++){
+            for(int column = 0; column < numColumns; column++){
+                charGridRep[column] = '#';
+            }
+            foreach((GridNode node, int) nodeTuple in nodes){
+                if(nodeTuple.node.id / numColumns == row)
+                charGridRep[nodeTuple.node.id % numColumns] = nodeTuple.node.letter;
+            }
+            Console.WriteLine(charGridRep);
+        }
+
+        // Vertical separation of grids for multiple subsequent uses
+        Console.WriteLine();
     }
 }
