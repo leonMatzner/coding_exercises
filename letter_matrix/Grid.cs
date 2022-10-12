@@ -77,8 +77,33 @@ class Grid{
             printSubGrid(visitedGridNodeTree[visitedGridNodeTree.Count -1]);
         }
 
-        // TODO: traverse visitedGridNodeTree to get full paths and check for uniqueness of nodes
-        return null;
+        List<List<GridNode>> results = new List<List<GridNode>>();
+        HashSet<int> uniqueElements = new HashSet<int>();
+        // Iterates through full paths
+        for(int resultIndex = 0; resultIndex < visitedGridNodeTree[visitedGridNodeTree.Count - 1].Count; resultIndex++){
+            (GridNode node, int parentOffset) currentNodeTuple = visitedGridNodeTree[visitedGridNodeTree.Count - 1][resultIndex];
+            List<GridNode> currentPath = new List<GridNode>();
+            currentPath.Add(currentNodeTuple.node);
+            uniqueElements.Add(currentNodeTuple.node.id);
+
+            // Iterates through individual paths
+            for(int layer = (visitedGridNodeTree.Count - 2); layer > -1; layer--){
+                currentNodeTuple = visitedGridNodeTree[layer][currentNodeTuple.parentOffset];
+                currentPath.Add(currentNodeTuple.node);
+                uniqueElements.Add(currentNodeTuple.node.id);
+            }
+
+            // Only adds paths without repeated letters to the results
+            if(uniqueElements.Count == searchTerm.Length){
+                currentPath.Reverse();
+                results.Add(currentPath);
+            }
+
+            // Resets the unique element count
+            uniqueElements.Clear();
+        }
+
+        return results;
     }
 
     private List<GridNode> getMatchingNeighbours(char c, GridNode originNode){
@@ -106,6 +131,26 @@ class Grid{
             foreach((GridNode node, int) nodeTuple in nodes){
                 if(nodeTuple.node.id / numColumns == row)
                 charGridRep[nodeTuple.node.id % numColumns] = nodeTuple.node.letter;
+            }
+            Console.WriteLine(charGridRep);
+        }
+
+        // Vertical separation of grids for multiple subsequent uses
+        Console.WriteLine();
+    }
+
+    // Overloaded for use from Init
+    public void printSubGrid(List<GridNode> nodes){
+        char[] charGridRep = new char[numColumns];
+
+        // fill grid representation with #
+        for(int row = 0; row < numRows; row++){
+            for(int column = 0; column < numColumns; column++){
+                charGridRep[column] = '#';
+            }
+            foreach(GridNode node in nodes){
+                if(node.id / numColumns == row)
+                charGridRep[node.id % numColumns] = node.letter;
             }
             Console.WriteLine(charGridRep);
         }

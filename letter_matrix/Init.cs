@@ -7,3 +7,10 @@ string searchTerm = "KATZE";
 Grid grid = new Grid(numRows, numColumns, gridText);
 
 List<List<GridNode>> matches = grid.findAllOccurences(searchTerm);
+
+List<GridNode> allMatches = new List<GridNode>();
+foreach(List<GridNode> match in matches){
+    allMatches.AddRange(match);
+}
+
+grid.printSubGrid(allMatches);
