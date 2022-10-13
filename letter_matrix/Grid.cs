@@ -1,8 +1,8 @@
 class Grid{
-    public int numRows;
-    public int numColumns;
+    private int numRows;
+    private int numColumns;
 
-    public List<GridNode> letterNodes;
+    private List<GridNode> letterNodes;
 
     public Grid(int rowCount, int columnCount, string gridText){
         this.numRows = rowCount;
@@ -10,7 +10,7 @@ class Grid{
         
         this.letterNodes = new List<GridNode>();
         
-        // Create all GridNodes, without connections
+        // Creates all GridNodes, without connections
         for(int row = 0; row < numRows; row++){
             for(int column = 0; column < numColumns; column++){
                 int id = row * numColumns + column;
@@ -41,11 +41,13 @@ class Grid{
                 southNode.north = northNode;
             }
         }
+        
+        //printSubGrid(letterNodes);
     }
 
     public List<List<GridNode>> findAllOccurences(string searchTerm){
         if(searchTerm == null || searchTerm.Length == 0){
-            return null;
+            return new List<List<GridNode>>();
         }
 
         // The first list dimension separates layers of a tree of visited GridNodes
@@ -60,21 +62,28 @@ class Grid{
         foreach(GridNode node in this.letterNodes){
             if(node.letter == currentChar){
                 visitedGridNodeTree[0].Add((node, 0));
-                //Console.WriteLine(visitedGridNodeTree);
+                Console.WriteLine("(" + node.id + ",0)");
             }
         }
+        Console.WriteLine("First layer done");
+        //Console.WriteLine(visitedGridNodeTree[0].Count);
         
+        //printSubGrid(visitedGridNodeTree[0]);
         // computes the further layers of tree of potential matches
         for(int charIndex = 1; charIndex < searchTerm.Length; charIndex++){
             currentChar = searchTerm[charIndex];
+            Console.WriteLine("Further layer started");
 
             visitedGridNodeTree.Add(new List<(GridNode, int)>());
             for(int parentIndex = 0; parentIndex < visitedGridNodeTree[charIndex - 1].Count; parentIndex++){
                 foreach(GridNode node in getMatchingNeighbours(currentChar, visitedGridNodeTree[charIndex - 1][parentIndex].node)){
                     visitedGridNodeTree[charIndex].Add((node, parentIndex));
+                    Console.WriteLine("(" + node.id + "," + parentIndex + ")");
                 }
             }
-            printSubGrid(visitedGridNodeTree[visitedGridNodeTree.Count -1]);
+            //Console.WriteLine("Further layer done");
+            //Console.WriteLine(visitedGridNodeTree[charIndex].Count);
+            //printSubGrid(visitedGridNodeTree[visitedGridNodeTree.Count -1]);
         }
 
         List<List<GridNode>> results = new List<List<GridNode>>();
@@ -97,6 +106,7 @@ class Grid{
             if(uniqueElements.Count == searchTerm.Length){
                 currentPath.Reverse();
                 results.Add(currentPath);
+                Console.WriteLine("Full path index " + resultIndex);
             }
 
             // Resets the unique element count

@@ -1,8 +1,35 @@
-﻿int numRows = 4;
+﻿
+int numRows = 4;
 int numColumns = 6;
-string gridText = "KLPQRKATLDAIMZEATETAKATZ";
+string gridText = "KCLQRKATLDAIMZEATETAKATZ";
 
-string searchTerm = "KATZE";
+string searchTerm = "KATZEN";
+
+if(true){
+    numRows = 6;
+    numColumns = 6;
+    gridText = "JPLCVXMHPAPIPAMPOEIRZIPREQREABREMVSP";
+    searchTerm = "PAPIER";
+}
+
+// Create random grid
+if(false){
+    gridText = "";
+    string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    //alphabet = "KATZEN";
+
+    numRows = 6;
+    numColumns = 6;
+    int randomStringLength = numRows * numColumns;
+
+    Random rand = new Random();
+    for(int i = 0; i < randomStringLength; i++){
+        int alphabetIndex = rand.Next(alphabet.Length);
+
+        gridText += alphabet[alphabetIndex];
+    }
+    Console.WriteLine(gridText);
+}
 
 Grid grid = new Grid(numRows, numColumns, gridText);
 
@@ -13,4 +40,6 @@ foreach(List<GridNode> match in matches){
     allMatches.AddRange(match);
 }
 
-grid.printSubGrid(allMatches);
+//grid.printSubGrid(allMatches);
+
+Console.WriteLine(matches.Count);
